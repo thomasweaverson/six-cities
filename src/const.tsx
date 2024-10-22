@@ -1,4 +1,4 @@
-const enum AppRoute {
+enum AppRoute {
   Root = '/',
   Favorites = '/favorites',
   Offer = '/offer',
@@ -6,4 +6,10 @@ const enum AppRoute {
   NotFound = '*',
 }
 
-export {AppRoute};
+enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export {AppRoute, AuthorizationStatus};
