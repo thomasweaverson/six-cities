@@ -1,39 +1,26 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import type { Offer } from '../../types/types';
+
 import Main from '../../pages/main/main';
+import Login from '../../pages/login/login';
+import Favorites from '../../pages/favorites/favorites';
 import Room from '../../pages/room/room';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import Favorites from '../../pages/favorites/favorites';
-import Login from '../../pages/login/login';
 import PrivateRoute from '../private-route/private-route';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 type AppProps = {
-  offersCount: number;
+  offers: Offer[];
 };
 
-function App( {offersCount}: AppProps): JSX.Element {
+function App( {offers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
-          path={AppRoute.Root}
-          element={<Main offersCount={offersCount}/>}
-        />
-
-        <Route
-          path={`${AppRoute.Offer}/:id`}
-          element={<Room />}
-        />
-
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
-            >
-              <Favorites />
-            </PrivateRoute>
-          }
+          index
+          element={<Main offers={offers}/>}
         />
 
         <Route
@@ -42,7 +29,23 @@ function App( {offersCount}: AppProps): JSX.Element {
         />
 
         <Route
-          path={AppRoute.NotFound}
+          path={`${AppRoute.Offer}/:id`}
+          element={<Room offers={offers}/>}
+        />
+
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute
+              authorizationStatus={AuthorizationStatus.Auth}
+            >
+              <Favorites offers={offers}/>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path='*'
           element={<NotFoundScreen />}
         />
 
