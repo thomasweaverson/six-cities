@@ -1,14 +1,19 @@
 import {Offer} from '../types/types';
 
+// 52.3909553943508, 4.85309666406198
+// 52.3609553943508, 4.85309666406198
+// 52.3909553943508, 4.929309666406198
+// 52.3809553943508, 4.939309666406198
+
 const OFFERS: Offer[] = [
   {
     'city': {
-      'name': 'Amsterdam',
       'location': {
-        'latitude': 52.37454,
-        'longitude': 4.897976,
-        'zoom': 13
-      }
+        'latitude': 52.374030,
+        'longitude': 4.889690,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     'previewImage': 'https://10.react.htmlacademy.pro/static/hotel/6.jpg',
     'images': [
@@ -55,20 +60,20 @@ const OFFERS: Offer[] = [
     },
     'description': 'Peaceful studio in the most wanted area in town. Quiet house Near of everything. Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance.',
     'location': {
-      'latitude': 52.37154,
-      'longitude': 4.889976,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 16
     },
     'id': 82
   },
   {
     'city': {
-      'name': 'Amsterdam',
       'location': {
-        'latitude': 52.37454,
-        'longitude': 4.897976,
-        'zoom': 13
-      }
+        'latitude': 52.374030,
+        'longitude': 4.889690,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     'previewImage': 'https://10.react.htmlacademy.pro/static/hotel/14.jpg',
     'images': [
@@ -111,20 +116,20 @@ const OFFERS: Offer[] = [
     },
     'description': 'This is a place for dreamers to reset, reflect, and create. Designed with a \'slow\' pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.',
     'location': {
-      'latitude': 52.36354,
-      'longitude': 4.889976,
+      'latitude': 52.3609553943508,
+      'longitude': 4.85309666406198,
       'zoom': 16
     },
     'id': 81
   },
   {
     'city': {
-      'name': 'Hamburg',
       'location': {
-        'latitude': 53.550341,
-        'longitude': 10.000654,
-        'zoom': 13
-      }
+        'latitude': 52.374030,
+        'longitude': 4.889690,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     'previewImage': 'https://10.react.htmlacademy.pro/static/hotel/7.jpg',
     'images': [
@@ -162,20 +167,20 @@ const OFFERS: Offer[] = [
     },
     'description': 'This is a place for dreamers to reset, reflect, and create. Designed with a \'slow\' pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.',
     'location': {
-      'latitude': 53.573341000000006,
-      'longitude': 10.025654000000001,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 16
     },
     'id': 80
   },
   {
     'city': {
-      'name': 'Amsterdam',
       'location': {
-        'latitude': 50.846557,
-        'longitude': 4.351697,
-        'zoom': 13
-      }
+        'latitude': 52.374030,
+        'longitude': 4.889690,
+        'zoom': 10
+      },
+      'name': 'Amsterdam'
     },
     'previewImage': 'https://10.react.htmlacademy.pro/static/hotel/9.jpg',
     'images': [
@@ -222,8 +227,8 @@ const OFFERS: Offer[] = [
     },
     'description': 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
     'location': {
-      'latitude': 50.869557,
-      'longitude': 4.332697,
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
       'zoom': 16
     },
     'id': 79

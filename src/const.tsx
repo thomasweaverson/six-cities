@@ -1,3 +1,5 @@
+import {City as CityType} from './types/types';
+
 enum AppRoute {
   Root = '/',
   Favorites = '/favorites',
@@ -20,4 +22,14 @@ enum City {
   Dusseldorf = 'Dusseldorf'
 }
 
-export {AppRoute, AuthorizationStatus, City};
+const AmsterdamCenter: CityType = {
+  location: {
+    latitude: 52.374030,
+    longitude: 4.889690,
+    zoom: 10
+  },
+  name: City.Amsterdam
+};
+
+
+export {AppRoute, AuthorizationStatus, City, AmsterdamCenter};

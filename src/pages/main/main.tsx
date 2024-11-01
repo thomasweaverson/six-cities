@@ -1,9 +1,10 @@
 import Logo from '../../components/logo/logo';
 import {Link} from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AmsterdamCenter } from '../../const';
 import PlacesList from '../../components/places-list/places-list';
 
 import type {Offer} from '../../types/types';
+import Map from '../../components/map/map';
 
 
 type MainProps = {
@@ -98,7 +99,8 @@ function Main({offers}: MainProps): JSX.Element {
               <PlacesList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              {/* <section className="cities__map map">MAPA</section> */}
+              <Map city={AmsterdamCenter} offers={offers} selectedOffer={offers[3]} />
             </div>
           </div>
         </div>

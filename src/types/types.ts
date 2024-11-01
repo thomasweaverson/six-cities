@@ -54,4 +54,4 @@ type Review = {
   date: string;
 };
 
-export type { Offer, Review, OfferBasic };
+export type { Offer, Review, OfferBasic, City };
