@@ -1,15 +1,17 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import Logo from '../../components/logo/logo';
-import PlaceCard from '../../components/place-card/place-card';
-import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import CommentForm from '../../components/comment-form/comment-form';
-import type {Offer} from '../../types/types';
 
 import { REVIEWS } from '../../mocks/reviews-mock';
-import HostUser from '../../components/host-user/host-user';
 import { shuffleArray, splitDescription } from '../../utils/common-utils';
-import ReviewsList from '../../components/reviews-list/reviews-list';
+
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import Logo from '../../components/logo/logo';
+import PlaceCard from '../../components/place-card/place-card';
+import HostUser from '../../components/host-user/host-user';
+import Map from '../../components/map/map';
+import Reviews from '../../components/reviews/reviews';
+
+import type {Offer} from '../../types/types';
 
 
 function Room({offers}: {offers: Offer[]}): JSX.Element {
@@ -29,7 +31,7 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
     setActivePlace(null);
   };
   const roomOffer = offers.find((offer) => offer.id === id);
-  // eslint-disable-next-line no-console
+
   if (!roomOffer) {
     return <NotFoundScreen />;
   }
@@ -129,14 +131,10 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
                   ))}
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ReviewsList reviews={REVIEWS} />
-                <CommentForm />
-              </section>
+              <Reviews reviews={REVIEWS} />
             </div>
           </div>
-          <section className="property__map map"></section>
+          <Map city={roomOffer.city} offers={temporaryNearByOffers} blockClass="property__map" />
         </section>
         <div className="container">
           <section className="near-places places">
