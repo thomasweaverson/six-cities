@@ -5,9 +5,9 @@ import { AppRoute } from '../../const';
 import { capitalize } from '../../utils/common-utils';
 
 type PlaceCardProps = Omit<OfferBasic, 'city'> & {
-  onMouseEnter: (id: number) => void; //@thws onMouseMove in example
-  onMouseLeave: () => void;
-  blockClass: string;
+  onMouseEnter?: (id: number) => void; //@thws onMouseMove in example
+  onMouseLeave?: () => void;
+  blockClass: 'cities' | 'favorites' | 'near-places';
   dimensions: {
     width: number;
     height: number;
@@ -24,8 +24,8 @@ function PlaceCard({
   previewImage,
   type,
   blockClass = 'cities',
-  onMouseEnter,
-  onMouseLeave,
+  onMouseEnter = () => void 0,
+  onMouseLeave = () => void 0,
 
   dimensions
 }: PlaceCardProps): JSX.Element {

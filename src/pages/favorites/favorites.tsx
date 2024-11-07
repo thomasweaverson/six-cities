@@ -27,8 +27,13 @@ function filterFavoritesAndGroupByCity(offers: Offer[]): GroupedOffers[] | null 
 
 function Favorites({offers}: FavoritesProps): JSX.Element {
   const groupedOffers = filterFavoritesAndGroupByCity(offers);
+  const isOffersEmpty = (!groupedOffers || groupedOffers.length === 0);
+  const divPageElementClass = `page ${isOffersEmpty ? 'page--favorites-empty' : ''}`;
+  const mainElementClass = `page__main page__main--favorites ${isOffersEmpty ? 'page__main--favorites-empty' : ''}`;
+  const sectionFavoritesElementClass = `favorites ${isOffersEmpty ? 'favorites--empty' : ''}`;
+
   return (
-    <div className="page">
+    <div className={divPageElementClass}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -53,19 +58,35 @@ function Favorites({offers}: FavoritesProps): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--favorites">
+      <main className={mainElementClass}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {groupedOffers && groupedOffers.map((group) => (
-                <FavoritesItem
-                  key={group.city}
-                  city={group.city}
-                  offers={group.offers}
-                />
-              ))}
-            </ul>
+          <section className={sectionFavoritesElementClass}>
+            {
+              isOffersEmpty &&
+                <>
+                  <h1 className="visually-hidden">Favorites (empty)</h1>
+                  <div className="favorites__status-wrapper">
+                    <b className="favorites__status">Nothing yet saved.</b>
+                    <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+                  </div>
+                </>
+            }
+
+            {
+              !isOffersEmpty &&
+                <>
+                  <h1 className="favorites__title">Saved listing</h1>
+                  <ul className="favorites__list">
+                    {groupedOffers && groupedOffers.map((group) => (
+                      <FavoritesItem
+                        key={group.city}
+                        city={group.city}
+                        offers={group.offers}
+                      />
+                    ))}
+                  </ul>
+                </>
+            }
           </section>
         </div>
       </main>

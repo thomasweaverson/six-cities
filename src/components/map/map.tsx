@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   city: City;
   offers: Offer[];
-  selectedOffer?: Offer | undefined;
+  selectedOffer?: Offer;
   blockClass: string;
 }
 
@@ -26,7 +26,8 @@ const currentCustomIcon = new Icon({
 function Map({city, offers, selectedOffer, blockClass}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
-
+  // eslint-disable-next-line no-console
+  console.log('selectedOffer', selectedOffer);
   useEffect(() => {
     if (map) {
       offers.forEach((offer) => {
@@ -38,8 +39,18 @@ function Map({city, offers, selectedOffer, blockClass}: MapProps): JSX.Element {
           .setIcon(selectedOffer !== undefined && selectedOffer.id === offer.id ? currentCustomIcon : defaultCustomIcon)
           .addTo(map);
       });
+
+      if (blockClass === 'property__map' && selectedOffer) {
+        const marker = new Marker({
+          lat: selectedOffer.location.latitude,
+          lng: selectedOffer.location.longitude
+        });
+        marker
+          .setIcon(currentCustomIcon )
+          .addTo(map);
+      }
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, selectedOffer, blockClass]);
 
   return (
     <section className={`map ${blockClass}`} style={{maxWidth: '1144px', margin: '0 auto 50px auto'}} ref={mapRef}/>

@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 
 import { REVIEWS } from '../../mocks/reviews-mock';
 import { shuffleArray, splitDescription } from '../../utils/common-utils';
@@ -18,18 +17,6 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
 
   const id = Number(useParams().id);
 
-  const [activePlace, setActivePlace] = useState<Offer | null>(null);
-  // eslint-disable-next-line no-console
-  console.log(activePlace);
-
-
-  const handleMouseEnter = (offer: Offer) => {
-    setActivePlace(offer);
-  };
-
-  const handleMouseLeave = () => {
-    setActivePlace(null);
-  };
   const roomOffer = offers.find((offer) => offer.id === id);
 
   if (!roomOffer) {
@@ -134,7 +121,7 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
               <Reviews reviews={REVIEWS} />
             </div>
           </div>
-          <Map city={roomOffer.city} offers={temporaryNearByOffers} blockClass="property__map" />
+          <Map city={roomOffer.city} selectedOffer={roomOffer} offers={temporaryNearByOffers} blockClass="property__map" />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -151,8 +138,6 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
                   id={offer.id}
                   title={offer.title}
                   type={offer.type}
-                  onMouseEnter={() => handleMouseEnter(offer)}
-                  onMouseLeave={handleMouseLeave}
                   blockClass={'near-places'}
                   dimensions={{
                     width: 260,

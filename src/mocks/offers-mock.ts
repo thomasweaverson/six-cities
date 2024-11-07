@@ -33,7 +33,7 @@ const OFFERS: Offer[] = [
       'https://10.react.htmlacademy.pro/static/hotel/9.jpg'
     ],
     'title': 'Canal View Prinsengracht',
-    'isFavorite': true,
+    'isFavorite': false,
     'isPremium': false,
     'rating': 2.9,
     'type': 'room',
@@ -200,7 +200,7 @@ const OFFERS: Offer[] = [
       'https://10.react.htmlacademy.pro/static/hotel/7.jpg'
     ],
     'title': 'The Pondhouse - A Magical Place',
-    'isFavorite': true,
+    'isFavorite': false,
     'isPremium': false,
     'rating': 2.1,
     'type': 'apartment',
