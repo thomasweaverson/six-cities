@@ -1,9 +1,8 @@
-import { City } from '../../const';
-import type {Offer} from '../../types/types';
+import type {Offer, CityName} from '../../types/types';
+
+import { cities } from '../../const';
 import Logo from '../../components/logo/logo';
 import FavoritesItem from '../../components/favorites-item/favorites-item';
-
-type CityName = typeof City[keyof typeof City];
 
 type GroupedOffers = {
   city: CityName;
@@ -15,7 +14,7 @@ type FavoritesProps = {
 };
 
 function filterFavoritesAndGroupByCity(offers: Offer[]): GroupedOffers[] | null {
-  const groupedOffers = Object.values(City)
+  const groupedOffers = (Object.keys(cities) as CityName[])
     .map((city) => ({
       city,
       offers: offers.filter((offer) => offer.city.name === city && offer.isFavorite),
@@ -28,6 +27,7 @@ function filterFavoritesAndGroupByCity(offers: Offer[]): GroupedOffers[] | null 
 function Favorites({offers}: FavoritesProps): JSX.Element {
   const groupedOffers = filterFavoritesAndGroupByCity(offers);
   const isOffersEmpty = (!groupedOffers || groupedOffers.length === 0);
+
   const divPageElementClass = `page ${isOffersEmpty ? 'page--favorites-empty' : ''}`;
   const mainElementClass = `page__main page__main--favorites ${isOffersEmpty ? 'page__main--favorites-empty' : ''}`;
   const sectionFavoritesElementClass = `favorites ${isOffersEmpty ? 'favorites--empty' : ''}`;

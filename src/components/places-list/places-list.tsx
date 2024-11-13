@@ -1,5 +1,5 @@
-import {useState} from 'react';
-
+import { useAppDispatch } from '../../hooks';
+import { setActiveOfferId } from '../../store/action';
 import type {Offer} from '../../types/types';
 
 import PlaceCard from '../place-card/place-card';
@@ -9,17 +9,17 @@ type PlacesListProps = {
 };
 
 function PlacesList({offers}: PlacesListProps): JSX.Element {
-  const [activePlace, setActivePlace] = useState<number | null>(null);
+  // const activePlace = useAppSelector((state) => state.activeOfferId);
   // eslint-disable-next-line no-console
-  console.log(activePlace);
-
+  // console.log(activePlace);
+  const dispatch = useAppDispatch();
 
   const handleMouseEnter = (id: number) => {
-    setActivePlace(id);
+    dispatch(setActiveOfferId(id));
   };
 
   const handleMouseLeave = () => {
-    setActivePlace(null);
+    dispatch(setActiveOfferId(null));
   };
 
   return (

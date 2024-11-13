@@ -33,13 +33,13 @@ function useMap(
       isMapInitialized.current = true;
     }
     //@thws vVv этого не было в разборе
-    return () => {
-      if (map) {
-        map.remove();
-        setMap(null);
-        isMapInitialized.current = false;
-      }
-    };
+    // return () => {
+    //   if (map) {
+    //     map.remove();
+    //     setMap(null);
+    //     isMapInitialized.current = false;
+    //   }
+    // };
   }, [mapRef, city, map]);
 
   return map;

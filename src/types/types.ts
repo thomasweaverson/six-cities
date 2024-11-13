@@ -3,10 +3,15 @@ type GeoLocation = {
   longitude: number;
   zoom: number;
 }
+
+type CityName = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'
+
 type City = {
   location: GeoLocation;
-  name: string;
+  name: CityName;
 }
+
+type Cities = Record<CityName, City>;
 
 type Host = {
   avatarUrl: string;
@@ -54,4 +59,4 @@ type Review = {
   date: string;
 };
 
-export type { Offer, Review, OfferBasic, City };
+export type { Offer, Review, OfferBasic, CityName, City, Cities };

@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { REVIEWS } from '../../mocks/reviews-mock';
 import { shuffleArray, splitDescription } from '../../utils/common-utils';
@@ -11,17 +12,23 @@ import Map from '../../components/map/map';
 import Reviews from '../../components/reviews/reviews';
 
 import type {Offer} from '../../types/types';
+import { useAppDispatch } from '../../hooks';
+import { setCity } from '../../store/action';
+import { AppRoute } from '../../const';
 
 
 function Room({offers}: {offers: Offer[]}): JSX.Element {
-
   const id = Number(useParams().id);
 
   const roomOffer = offers.find((offer) => offer.id === id);
 
+  const dispatch = useAppDispatch();
+
   if (!roomOffer) {
     return <NotFoundScreen />;
   }
+
+  dispatch(setCity(roomOffer.city.name));
 
   const temporaryNearByOffers = offers.filter((offer) => offer.id !== id).slice(0, 3);
 
@@ -34,11 +41,11 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#/">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#/">
@@ -121,7 +128,7 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
               <Reviews reviews={REVIEWS} />
             </div>
           </div>
-          <Map city={roomOffer.city} selectedOffer={roomOffer} offers={temporaryNearByOffers} blockClass="property__map" />
+          <Map selectedOffer={roomOffer} offers={temporaryNearByOffers} blockClass="property__map" />
         </section>
         <div className="container">
           <section className="near-places places">

@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import PlaceCard from '../place-card/place-card';
-import type {Offer} from '../../types/types';
-import { City } from '../../const';
-
-type CityName = typeof City[keyof typeof City]
+import type {Offer, CityName} from '../../types/types';
 
 function FavoritesItem({city, offers}: {city: CityName; offers: Offer[]}): JSX.Element {
   const [activePlace, setActivePlace] = useState<Offer | null>(null);

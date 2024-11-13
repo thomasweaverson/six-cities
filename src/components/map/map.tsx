@@ -1,11 +1,12 @@
 import { useRef, useEffect } from 'react';
-import { Icon, Marker } from 'leaflet';
+import { Icon, Marker, LayerGroup } from 'leaflet';
 import useMap from '../../hooks/useMap';
-import { City, Offer } from '../../types/types';
+import type { Offer } from '../../types/types';
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../../hooks';
+import { cities } from '../../const';
 
 type MapProps = {
-  city: City;
   offers: Offer[];
   selectedOffer?: Offer;
   blockClass: string;
@@ -23,13 +24,21 @@ const currentCustomIcon = new Icon({
   iconAnchor: [13.5, 39]
 });
 
-function Map({city, offers, selectedOffer, blockClass}: MapProps): JSX.Element {
+function Map({offers, selectedOffer, blockClass}: MapProps): JSX.Element {
+  const currentCity = useAppSelector((state) => state.city);
+  const city = cities[currentCity];
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
-  // eslint-disable-next-line no-console
-  console.log('selectedOffer', selectedOffer);
+
+
+  const markersLayer = useRef(new LayerGroup());
   useEffect(() => {
     if (map) {
+      markersLayer.current.clearLayers();
+      if (!map.hasLayer(markersLayer.current)) {
+        markersLayer.current.addTo(map);
+      }
+
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -37,7 +46,7 @@ function Map({city, offers, selectedOffer, blockClass}: MapProps): JSX.Element {
         });
         marker
           .setIcon(selectedOffer !== undefined && selectedOffer.id === offer.id ? currentCustomIcon : defaultCustomIcon)
-          .addTo(map);
+          .addTo(markersLayer.current);
       });
 
       if (blockClass === 'property__map' && selectedOffer) {
@@ -47,10 +56,11 @@ function Map({city, offers, selectedOffer, blockClass}: MapProps): JSX.Element {
         });
         marker
           .setIcon(currentCustomIcon )
-          .addTo(map);
+          .addTo(markersLayer.current);
       }
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
     }
-  }, [map, offers, selectedOffer, blockClass]);
+  }, [map, offers, selectedOffer, blockClass, city]);
 
   return (
     <section className={`map ${blockClass}`} style={{maxWidth: '1144px', margin: '0 auto 50px auto'}} ref={mapRef}/>

@@ -13,7 +13,7 @@ const OFFERS: Offer[] = [
         'longitude': 4.889690,
         'zoom': 10
       },
-      'name': 'Amsterdam'
+      'name': 'Paris'
     },
     'previewImage': 'https://10.react.htmlacademy.pro/static/hotel/6.jpg',
     'images': [
@@ -60,8 +60,8 @@ const OFFERS: Offer[] = [
     },
     'description': 'Peaceful studio in the most wanted area in town. Quiet house Near of everything. Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance.',
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 48.79121,
+      'longitude': 2.351499,
       'zoom': 16
     },
     'id': 82
@@ -93,7 +93,7 @@ const OFFERS: Offer[] = [
       'https://10.react.htmlacademy.pro/static/hotel/2.jpg'
     ],
     'title': 'Amazing and Extremely Central Flat',
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': false,
     'rating': 4.8,
     'type': 'room',
