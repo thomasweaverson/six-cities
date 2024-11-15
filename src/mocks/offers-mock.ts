@@ -1,10 +1,5 @@
 import {Offer} from '../types/types';
 
-// 52.3909553943508, 4.85309666406198
-// 52.3609553943508, 4.85309666406198
-// 52.3909553943508, 4.929309666406198
-// 52.3809553943508, 4.939309666406198
-
 const OFFERS: Offer[] = [
   {
     'city': {
@@ -33,7 +28,7 @@ const OFFERS: Offer[] = [
       'https://10.react.htmlacademy.pro/static/hotel/9.jpg'
     ],
     'title': 'Canal View Prinsengracht',
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': false,
     'rating': 2.9,
     'type': 'room',
@@ -149,7 +144,7 @@ const OFFERS: Offer[] = [
       'https://10.react.htmlacademy.pro/static/hotel/18.jpg'
     ],
     'title': 'Amazing and Extremely Central Flat',
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'rating': 4.3,
     'type': 'house',

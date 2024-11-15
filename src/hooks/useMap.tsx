@@ -40,7 +40,7 @@ function useMap(
     //     isMapInitialized.current = false;
     //   }
     // };
-  }, [mapRef, city, map]);
+  }, [mapRef, city]);
 
   return map;
 }

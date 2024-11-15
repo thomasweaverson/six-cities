@@ -1,4 +1,4 @@
-import type {City, CityName} from './types/types';
+import type {GeoLocation, CityName} from './types/types';
 
 enum AppRoute {
   Root = '/',
@@ -13,56 +13,40 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const cities: Record<CityName, City> = {
+const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+
+const CityLocation: {[key in CityName]: GeoLocation} = {
   Paris: {
-    location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
-      zoom: 10
-    },
-    name: 'Paris'
+    latitude: 48.85661,
+    longitude: 2.351499,
+    zoom: 13
   },
   Cologne: {
-    location: {
-      latitude: 50.938361,
-      longitude: 6.959974,
-      zoom: 10
-    },
-    name: 'Cologne'
+    latitude: 50.938361,
+    longitude: 6.959974,
+    zoom: 13
   },
   Brussels: {
-    location: {
-      latitude: 50.846557,
-      longitude: 4.351697,
-      zoom: 10
-    },
-    name: 'Brussels'
+    latitude: 50.846557,
+    longitude: 4.351697,
+    zoom: 13
   },
   Amsterdam: {
-    location: {
-      latitude: 52.374030,
-      longitude: 4.889690,
-      zoom: 10
-    },
-    name: 'Amsterdam'
+    latitude: 52.374030,
+    longitude: 4.889690,
+    zoom: 13
   },
   Hamburg: {
-    location: {
-      latitude: 53.550341,
-      longitude: 9.993683,
-      zoom: 10
-    },
-    name: 'Hamburg'
+    latitude: 53.550341,
+    longitude: 9.993683,
+    zoom: 13
   },
   Dusseldorf: {
-    location: {
-      latitude: 51.225402,
-      longitude: 6.776314,
-      zoom: 10
-    },
-    name: 'Dusseldorf'
+    latitude: 51.225402,
+    longitude: 6.776314,
+    zoom: 13
   }
 };
 
 
-export {AppRoute, AuthorizationStatus, cities};
+export {AppRoute, AuthorizationStatus, cities, CityLocation};

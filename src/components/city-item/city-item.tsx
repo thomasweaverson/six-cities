@@ -1,23 +1,23 @@
 import { CityName } from '../../types/types';
 
 type cityItemProps = {
-  city: CityName;
+  name: CityName;
   isActive: boolean;
-  onCityItemClick: (city: CityName) => void;
+  onCityItemClick: (name: CityName) => void;
 }
 
-function CityItem({city, isActive, onCityItemClick}: cityItemProps): JSX.Element {
-  const itemClass = `locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`;
+function CityItem({name, isActive, onCityItemClick}: cityItemProps): JSX.Element {
+  const anchorElementClass = `locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`;
 
   const handleCityItemClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    onCityItemClick(city);
+    onCityItemClick(name);
   };
 
   return (
     <li className="locations__item">
-      <a className={itemClass} href="#/" onClick={handleCityItemClick}>
-        <span>{city}</span>
+      <a className={anchorElementClass} href="#/" onClick={handleCityItemClick}>
+        <span>{name}</span>
       </a>
     </li>
   );

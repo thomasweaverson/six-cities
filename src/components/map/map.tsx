@@ -1,15 +1,18 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker, LayerGroup } from 'leaflet';
+
+import type { City, GeoLocation } from '../../types/types';
+
 import useMap from '../../hooks/useMap';
-import type { Offer } from '../../types/types';
+
+// import { CityLocation } from '../../const';
+
 import 'leaflet/dist/leaflet.css';
-import { useAppSelector } from '../../hooks';
-import { cities } from '../../const';
 
 type MapProps = {
-  offers: Offer[];
-  selectedOffer?: Offer;
-  blockClass: string;
+  city: City;
+  locations: GeoLocation[];
+  blockClass?: string;
 }
 
 const defaultCustomIcon = new Icon({
@@ -18,49 +21,51 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [13.5, 39]
 });
 
-const currentCustomIcon = new Icon({
-  iconUrl: '../img/pin-active.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39]
-});
+// const currentCustomIcon = new Icon({
+//   iconUrl: '../img/pin-active.svg',
+//   iconSize: [27, 39],
+//   iconAnchor: [13.5, 39]
+// });
 
-function Map({offers, selectedOffer, blockClass}: MapProps): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-  const city = cities[currentCity];
+function Map({city, locations, blockClass = 'cities__map'}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
 
-
-  const markersLayer = useRef(new LayerGroup());
   useEffect(() => {
+    const markersLayer = new LayerGroup();
     if (map) {
-      markersLayer.current.clearLayers();
-      if (!map.hasLayer(markersLayer.current)) {
-        markersLayer.current.addTo(map);
+      if (!map.hasLayer(markersLayer)) {
+        markersLayer.addTo(map);
       }
 
-      offers.forEach((offer) => {
+      locations.forEach((location) => {
         const marker = new Marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude
+          lat: location.latitude,
+          lng: location.longitude
         });
         marker
-          .setIcon(selectedOffer !== undefined && selectedOffer.id === offer.id ? currentCustomIcon : defaultCustomIcon)
-          .addTo(markersLayer.current);
+          .setIcon(defaultCustomIcon)
+          .addTo(markersLayer);
       });
 
-      if (blockClass === 'property__map' && selectedOffer) {
-        const marker = new Marker({
-          lat: selectedOffer.location.latitude,
-          lng: selectedOffer.location.longitude
-        });
-        marker
-          .setIcon(currentCustomIcon )
-          .addTo(markersLayer.current);
-      }
+      // if (blockClass === 'property__map' && selectedOffer) {
+      //   const marker = new Marker({
+      //     lat: selectedOffer.location.latitude,
+      //     lng: selectedOffer.location.longitude
+      //   });
+      //   marker
+      //     .setIcon(currentCustomIcon )
+      //     .addTo(markersLayer.current);
+      // }
       map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
     }
-  }, [map, offers, selectedOffer, blockClass, city]);
+
+    return () => {
+      if (map) {
+        map.removeLayer(markersLayer);
+      }
+    };
+  }, [map, locations, city]);
 
   return (
     <section className={`map ${blockClass}`} style={{maxWidth: '1144px', margin: '0 auto 50px auto'}} ref={mapRef}/>

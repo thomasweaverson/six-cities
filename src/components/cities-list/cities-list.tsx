@@ -1,22 +1,24 @@
-import CityItem from '../city-item/city-item';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import type { CityName } from '../../types/types';
+
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { setCity } from '../../store/action';
 
-import type { Cities, CityName } from '../../types/types';
+import CityItem from '../city-item/city-item';
 
-function CitiesList({cities}: {cities: Cities}): JSX.Element {
-  const cityNames: CityName[] = Object.keys(cities) as CityName[];
-  const currentCity = useAppSelector((state) => state.city);
+import { cities } from '../../const';
+
+function CitiesList(): JSX.Element {
   const dispatch = useAppDispatch();
+  const currentCity = useAppSelector((state) => state.city);
 
-  const handleCityClick = (city: CityName) => {
-    dispatch(setCity(city));
+  const handleCityClick = (name: CityName) => {
+    dispatch(setCity(name));
   };
 
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        {cityNames.map((city) => <CityItem key={city} city={city} onCityItemClick={handleCityClick} isActive={city === currentCity}/>)}
+        {cities.map((city) => <CityItem key={city} name={city} onCityItemClick={handleCityClick} isActive={city === currentCity.name}/>)}
       </ul>
     </section>
   );

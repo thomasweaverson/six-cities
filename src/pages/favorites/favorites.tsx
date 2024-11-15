@@ -3,18 +3,15 @@ import type {Offer, CityName} from '../../types/types';
 import { cities } from '../../const';
 import Logo from '../../components/logo/logo';
 import FavoritesItem from '../../components/favorites-item/favorites-item';
+import { useAppSelector } from '../../hooks';
 
 type GroupedOffers = {
   city: CityName;
   offers: Offer[];
 };
 
-type FavoritesProps = {
-  offers: Offer[];
-};
-
 function filterFavoritesAndGroupByCity(offers: Offer[]): GroupedOffers[] | null {
-  const groupedOffers = (Object.keys(cities) as CityName[])
+  const groupedOffers = cities
     .map((city) => ({
       city,
       offers: offers.filter((offer) => offer.city.name === city && offer.isFavorite),
@@ -24,14 +21,16 @@ function filterFavoritesAndGroupByCity(offers: Offer[]): GroupedOffers[] | null 
   return groupedOffers.length > 0 ? groupedOffers : null;
 }
 
-function Favorites({offers}: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   const groupedOffers = filterFavoritesAndGroupByCity(offers);
   const isOffersEmpty = (!groupedOffers || groupedOffers.length === 0);
 
   const divPageElementClass = `page ${isOffersEmpty ? 'page--favorites-empty' : ''}`;
   const mainElementClass = `page__main page__main--favorites ${isOffersEmpty ? 'page__main--favorites-empty' : ''}`;
   const sectionFavoritesElementClass = `favorites ${isOffersEmpty ? 'favorites--empty' : ''}`;
-
+  // eslint-disable-next-line no-console
+  console.log('groupedOffers', groupedOffers);
   return (
     <div className={divPageElementClass}>
       <header className="header">

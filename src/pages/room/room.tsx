@@ -11,14 +11,15 @@ import HostUser from '../../components/host-user/host-user';
 import Map from '../../components/map/map';
 import Reviews from '../../components/reviews/reviews';
 
-import type {Offer} from '../../types/types';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setCity } from '../../store/action';
 import { AppRoute } from '../../const';
 
 
-function Room({offers}: {offers: Offer[]}): JSX.Element {
+function Room(): JSX.Element {
   const id = Number(useParams().id);
+
+  const offers = useAppSelector((state) => state.offers);
 
   const roomOffer = offers.find((offer) => offer.id === id);
 
@@ -128,7 +129,7 @@ function Room({offers}: {offers: Offer[]}): JSX.Element {
               <Reviews reviews={REVIEWS} />
             </div>
           </div>
-          <Map selectedOffer={roomOffer} offers={temporaryNearByOffers} blockClass="property__map" />
+          <Map city={roomOffer.city} locations={temporaryNearByOffers.map((offer) => offer.location)} blockClass="property__map" />
         </section>
         <div className="container">
           <section className="near-places places">

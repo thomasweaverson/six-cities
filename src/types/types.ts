@@ -1,14 +1,15 @@
+import { cities } from '../const';
 type GeoLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
 
-type CityName = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'
+type CityName = typeof cities[number];
 
 type City = {
-  location: GeoLocation;
   name: CityName;
+  location: GeoLocation;
 }
 
 type Cities = Record<CityName, City>;
@@ -59,4 +60,4 @@ type Review = {
   date: string;
 };
 
-export type { Offer, Review, OfferBasic, CityName, City, Cities };
+export type { Offer, Review, OfferBasic, GeoLocation, CityName, City, Cities };
