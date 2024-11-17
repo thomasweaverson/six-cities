@@ -129,7 +129,7 @@ function Room(): JSX.Element {
               <Reviews reviews={REVIEWS} />
             </div>
           </div>
-          <Map city={roomOffer.city} locations={temporaryNearByOffers.map((offer) => offer.location)} blockClass="property__map" />
+          <Map city={roomOffer.city} offers={temporaryNearByOffers} blockClass="property__map" />
         </section>
         <div className="container">
           <section className="near-places places">

@@ -1,4 +1,4 @@
-import { cities } from '../const';
+import { cities, SortTypes } from '../const';
 type GeoLocation = {
   latitude: number;
   longitude: number;
@@ -60,4 +60,6 @@ type Review = {
   date: string;
 };
 
-export type { Offer, Review, OfferBasic, GeoLocation, CityName, City, Cities };
+type SortType = typeof SortTypes[number];
+
+export type { Offer, Review, OfferBasic, GeoLocation, CityName, City, Cities, SortType };

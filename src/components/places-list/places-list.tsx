@@ -1,34 +1,33 @@
-// import { useAppDispatch } from '../../hooks';
-import { useState } from 'react';
+import { useAppDispatch } from '../../hooks';
 
 import type {Offer} from '../../types/types';
 
 import PlaceCard from '../place-card/place-card';
+import { useAppSelector } from '../../hooks';
+import { sortOffers } from '../../utils/cities-utils';
+import { setActiveOfferId } from '../../store/action';
 
 type PlacesListProps = {
   offers: Offer[];
 };
 
 function PlacesList({offers}: PlacesListProps): JSX.Element {
-  // const activePlace = useAppSelector((state) => state.activeOfferId);
-  // eslint-disable-next-line no-console
-  // console.log(activePlace);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
+  const activeSortType = useAppSelector((state) => state.activeSortType);
+  const sortedOffers = sortOffers(offers, activeSortType);
 
   const handleMouseEnter = (id: number) => {
-    setActiveOfferId(id);
+    dispatch(setActiveOfferId(id));
   };
 
   const handleMouseLeave = () => {
-    setActiveOfferId(null);
+    dispatch(setActiveOfferId(null));
   };
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer) => (
+      {sortedOffers.map((offer) => (
         <PlaceCard
           key={offer.id}
           id={offer.id}
@@ -51,3 +50,4 @@ function PlacesList({offers}: PlacesListProps): JSX.Element {
 }
 
 export default PlacesList;
+

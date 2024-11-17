@@ -1,17 +1,16 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker, LayerGroup } from 'leaflet';
 
-import type { City, GeoLocation } from '../../types/types';
+import type { City, Offer } from '../../types/types';
 
 import useMap from '../../hooks/useMap';
 
-// import { CityLocation } from '../../const';
-
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../../hooks';
 
 type MapProps = {
   city: City;
-  locations: GeoLocation[];
+  offers: Offer[];
   blockClass?: string;
 }
 
@@ -21,51 +20,48 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [13.5, 39]
 });
 
-// const currentCustomIcon = new Icon({
-//   iconUrl: '../img/pin-active.svg',
-//   iconSize: [27, 39],
-//   iconAnchor: [13.5, 39]
-// });
+const currentCustomIcon = new Icon({
+  iconUrl: '../img/pin-active.svg',
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39]
+});
 
-function Map({city, locations, blockClass = 'cities__map'}: MapProps): JSX.Element {
+function Map({city, offers, blockClass = 'cities__map'}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
 
+  const activeOffer = useAppSelector((state) => state.activeOfferId);
+
   useEffect(() => {
-    const markersLayer = new LayerGroup();
     if (map) {
-      if (!map.hasLayer(markersLayer)) {
-        markersLayer.addTo(map);
-      }
-
-      locations.forEach((location) => {
-        const marker = new Marker({
-          lat: location.latitude,
-          lng: location.longitude
-        });
-        marker
-          .setIcon(defaultCustomIcon)
-          .addTo(markersLayer);
-      });
-
-      // if (blockClass === 'property__map' && selectedOffer) {
-      //   const marker = new Marker({
-      //     lat: selectedOffer.location.latitude,
-      //     lng: selectedOffer.location.longitude
-      //   });
-      //   marker
-      //     .setIcon(currentCustomIcon )
-      //     .addTo(markersLayer.current);
-      // }
       map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
     }
+  }, [map, city]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    const markersLayer = new LayerGroup();
+
+    offers.forEach((offer) => {
+      const marker = new Marker({
+        lat: offer.location.latitude,
+        lng: offer.location.longitude
+      });
+
+      marker
+        .setIcon(offer.id === activeOffer ? currentCustomIcon : defaultCustomIcon)
+        .addTo(markersLayer);
+    });
+    markersLayer.addTo(map);
 
     return () => {
-      if (map) {
-        map.removeLayer(markersLayer);
-      }
+      markersLayer.clearLayers();
+      map.removeLayer(markersLayer);
     };
-  }, [map, locations, city]);
+  }, [map, offers, activeOffer]);
 
   return (
     <section className={`map ${blockClass}`} style={{maxWidth: '1144px', margin: '0 auto 50px auto'}} ref={mapRef}/>

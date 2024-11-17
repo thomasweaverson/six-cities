@@ -48,5 +48,13 @@ const CityLocation: {[key in CityName]: GeoLocation} = {
   }
 };
 
+const SortTypes = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'] as const;
 
-export {AppRoute, AuthorizationStatus, cities, CityLocation};
+enum SortTypeEnum {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first',
+}
+
+export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum};
