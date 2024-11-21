@@ -14,9 +14,12 @@ import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setCity } from '../../store/action';
 import { AppRoute } from '../../const';
+import { useEffect } from 'react';
 
 
 function Room(): JSX.Element {
+  // eslint-disable-next-line
+  console.log('Room ID', useParams().id);
   const id = Number(useParams().id);
 
   const offers = useAppSelector((state) => state.offers);
@@ -25,11 +28,16 @@ function Room(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (roomOffer) {
+      dispatch(setCity(roomOffer.city.name));
+    }
+  }, [dispatch, roomOffer]);
+
   if (!roomOffer) {
     return <NotFoundScreen />;
   }
 
-  dispatch(setCity(roomOffer.city.name));
 
   const temporaryNearByOffers = offers.filter((offer) => offer.id !== id).slice(0, 3);
 

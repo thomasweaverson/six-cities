@@ -5,11 +5,20 @@ import Map from '../map/map';
 
 import {getOffersByCity} from '../../utils/cities-utils';
 import SortDropdown from '../sort-dropdown/sort-dropdown';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function Places(): JSX.Element {
+  const {isOffersLoadingStatus, offers} = useAppSelector((state) => state); //authorizationStatus in {...}
   const currentCity = useAppSelector((state) => state.city);
 
-  const offersByCity = getOffersByCity(currentCity.name, useAppSelector((state) => state.offers));
+  if (isOffersLoadingStatus) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+
+  const offersByCity = getOffersByCity(currentCity.name, offers);
 
   return (
     <>

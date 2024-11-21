@@ -57,4 +57,11 @@ enum SortTypeEnum {
   TopRatedFirst = 'Top rated first',
 }
 
+export enum APIRoute {
+  Hotels = '/hotels',
+  // Login = '/login',
+  // Logout = '/logout',
+  // Favorites = '/favorites',
+}
+
 export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum};

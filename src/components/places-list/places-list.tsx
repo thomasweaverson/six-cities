@@ -18,6 +18,8 @@ function PlacesList({offers}: PlacesListProps): JSX.Element {
   const sortedOffers = sortOffers(offers, activeSortType);
 
   const handleMouseEnter = (id: number) => {
+    // eslint-disable-next-line
+    console.log('id', id);
     dispatch(setActiveOfferId(id));
   };
 
