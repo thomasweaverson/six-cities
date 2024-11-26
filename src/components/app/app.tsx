@@ -1,16 +1,15 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-
 import Main from '../../pages/main/main';
-import Login from '../../pages/login/login';
+import Login from '../../pages/login-screen/login-screen';
 import Favorites from '../../pages/favorites/favorites';
 import Room from '../../pages/room/room';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import { AppRoute, AuthorizationStatus } from '../../const';
-// import { useAppSelector } from '../../hooks';
-// import { isCheckedAuth }
+import { AppRoute } from '../../const';
 
+// const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+//   authorizationStatus === AuthorizationStatus.Unknown;
 
 function App(): JSX.Element {
 
@@ -35,9 +34,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth} // authorizationStatus from state
-            >
+            <PrivateRoute>
               <Favorites />
             </PrivateRoute>
           }

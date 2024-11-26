@@ -5,7 +5,7 @@ import Map from '../map/map';
 
 import {getOffersByCity} from '../../utils/cities-utils';
 import SortDropdown from '../sort-dropdown/sort-dropdown';
-import LoadingScreen from '../loading-screen/loading-screen';
+import LoadingScreen from '../loader/loader';
 
 function Places(): JSX.Element {
   const {isOffersLoadingStatus, offers} = useAppSelector((state) => state); //authorizationStatus in {...}

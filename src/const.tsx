@@ -57,11 +57,13 @@ enum SortTypeEnum {
   TopRatedFirst = 'Top rated first',
 }
 
-export enum APIRoute {
+enum APIRoute {
   Hotels = '/hotels',
-  // Login = '/login',
-  // Logout = '/logout',
+  Login = '/login',
+  Logout = '/logout',
   // Favorites = '/favorites',
 }
 
-export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum};
+const TIMEOUT_SHOW_ERROR = 2000;
+
+export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum, APIRoute, TIMEOUT_SHOW_ERROR};

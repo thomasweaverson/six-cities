@@ -1,11 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 import { REVIEWS } from '../../mocks/reviews-mock';
 import { shuffleArray, splitDescription } from '../../utils/common-utils';
 
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import Logo from '../../components/logo/logo';
 import PlaceCard from '../../components/place-card/place-card';
 import HostUser from '../../components/host-user/host-user';
 import Map from '../../components/map/map';
@@ -13,8 +11,8 @@ import Reviews from '../../components/reviews/reviews';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setCity } from '../../store/action';
-import { AppRoute } from '../../const';
 import { useEffect } from 'react';
+import Header from '../../components/header/header';
 
 
 function Room(): JSX.Element {
@@ -43,29 +41,7 @@ function Room(): JSX.Element {
 
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <Logo />
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#/">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="page__main page__main--property">
         <section className="property">
