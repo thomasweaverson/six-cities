@@ -5,7 +5,7 @@ import type {Offer} from '../../types/types';
 import PlaceCard from '../place-card/place-card';
 import { useAppSelector } from '../../hooks';
 import { sortOffers } from '../../utils/cities-utils';
-import { setActiveOfferId } from '../../store/action';
+import { setActiveOffer } from '../../store/action';
 
 type PlacesListProps = {
   offers: Offer[];
@@ -17,14 +17,12 @@ function PlacesList({offers}: PlacesListProps): JSX.Element {
   const activeSortType = useAppSelector((state) => state.activeSortType);
   const sortedOffers = sortOffers(offers, activeSortType);
 
-  const handleMouseEnter = (id: number) => {
-    // eslint-disable-next-line
-    console.log('id', id);
-    dispatch(setActiveOfferId(id));
+  const handleMouseEnter = (offer: Offer) => {
+    dispatch(setActiveOffer(offer));
   };
 
   const handleMouseLeave = () => {
-    dispatch(setActiveOfferId(null));
+    dispatch(setActiveOffer(null));
   };
 
   return (
@@ -32,14 +30,7 @@ function PlacesList({offers}: PlacesListProps): JSX.Element {
       {sortedOffers.map((offer) => (
         <PlaceCard
           key={offer.id}
-          id={offer.id}
-          price={offer.price}
-          rating={offer.rating}
-          title={offer.title}
-          isPremium={offer.isPremium}
-          isFavorite={offer.isFavorite}
-          previewImage={offer.previewImage}
-          type={offer.type}
+          offer={offer}
           blockClass={'cities'}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}

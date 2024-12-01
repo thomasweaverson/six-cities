@@ -6,7 +6,7 @@ function FavoritesItem({city, offers}: {city: CityName; offers: Offer[]}): JSX.E
   const [activePlace, setActivePlace] = useState<Offer | null>(null);
   // eslint-disable-next-line no-console
   console.log(activePlace);
-
+  //@thws тут чёт много лишнего, стейт например
 
   const handleMouseEnter = (offer: Offer) => {
     setActivePlace(offer);
@@ -30,14 +30,7 @@ function FavoritesItem({city, offers}: {city: CityName; offers: Offer[]}): JSX.E
         {offers.map((offer) => (
           <PlaceCard
             key={offer.id}
-            isPremium={offer.isPremium}
-            previewImage={offer.previewImage}
-            price={offer.price}
-            isFavorite={offer.isFavorite}
-            rating={offer.rating}
-            id={offer.id}
-            title={offer.title}
-            type={offer.type}
+            offer={offer}
             onMouseEnter={() => handleMouseEnter(offer)}
             onMouseLeave={handleMouseLeave}
             blockClass={'favorites'}

@@ -5,6 +5,7 @@ enum AppRoute {
   Favorites = '/favorites',
   Offer = '/offer',
   Login = '/login',
+  NotFound = '*',
 }
 
 enum AuthorizationStatus {
@@ -61,9 +62,10 @@ enum APIRoute {
   Hotels = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
   // Favorites = '/favorites',
 }
 
-const TIMEOUT_SHOW_ERROR = 2000;
+const TIMEOUT_SHOW_ERROR = 3000;
 
 export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum, APIRoute, TIMEOUT_SHOW_ERROR};

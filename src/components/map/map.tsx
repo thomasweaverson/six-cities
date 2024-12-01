@@ -30,7 +30,7 @@ function Map({city, offers, blockClass = 'cities__map'}: MapProps): JSX.Element 
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
 
-  const activeOffer = useAppSelector((state) => state.activeOfferId);
+  const activeOffer = useAppSelector((state) => state.activeOffer);
 
   useEffect(() => {
     if (map) {
@@ -52,7 +52,7 @@ function Map({city, offers, blockClass = 'cities__map'}: MapProps): JSX.Element 
       });
 
       marker
-        .setIcon(offer.id === activeOffer ? currentCustomIcon : defaultCustomIcon)
+        .setIcon(offer.id === activeOffer?.id ? currentCustomIcon : defaultCustomIcon)
         .addTo(markersLayer);
     });
     markersLayer.addTo(map);

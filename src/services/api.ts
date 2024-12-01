@@ -2,6 +2,10 @@ import axios, { AxiosInstance, AxiosResponse, AxiosError, AxiosHeaders, Internal
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
 import { processErrorHandle } from './process-error-handle';
+import { AppRoute } from '../const';
+import { redirectToRoute } from '../store/action';
+import { store } from '../store';
+
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
@@ -15,6 +19,7 @@ const BASE_URL = 'https://10.react.htmlacademy.pro/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = (): AxiosInstance => {
+
   const api = axios.create({
     baseURL: BASE_URL,
     timeout: REQUEST_TIMEOUT,
@@ -38,13 +43,21 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
+      if (error.response) {
+        const status = error.response.status;
+
+        if (status === StatusCodes.NOT_FOUND) {
+          store.dispatch(redirectToRoute(AppRoute.NotFound));
+        }
+      }
       if (error.response && shouldDisplayError(error.response)) {
         const errorMessage = (error.response.data as { error?: string }).error || 'Unknown error';
         processErrorHandle(errorMessage);
       }
 
       throw error;
-    },
+    }
+
   );
 
   return api;

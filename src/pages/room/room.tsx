@@ -1,53 +1,74 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { REVIEWS } from '../../mocks/reviews-mock';
 import { shuffleArray, splitDescription } from '../../utils/common-utils';
 
-import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlaceCard from '../../components/place-card/place-card';
 import HostUser from '../../components/host-user/host-user';
 import Map from '../../components/map/map';
 import Reviews from '../../components/reviews/reviews';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setCity } from '../../store/action';
+import { setActiveOffer, setCity } from '../../store/action';
 import { useEffect } from 'react';
 import Header from '../../components/header/header';
+import Loader from '../../components/loader/loader';
+import { fetchNearbyOffersAction, fetchOfferAction, fetchReviewsAction } from '../../store/api-actions';
+import { AppRoute } from '../../const';
 
 
 function Room(): JSX.Element {
-  // eslint-disable-next-line
-  console.log('Room ID', useParams().id);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const id = Number(useParams().id);
 
-  const offers = useAppSelector((state) => state.offers);
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
 
-  const roomOffer = offers.find((offer) => offer.id === id);
+  const isOfferLoadingStatus = useAppSelector((state) => state.isOfferLoadingStatus);
+  const isNearByOffersLoadingStatus = useAppSelector((state) => state.isNearByOffersLoadingStatus);
+  const isCommentsLoadingStatus = useAppSelector((state) => state.isCommentsLoadingStatus);
 
-  const dispatch = useAppDispatch();
+  const offerLoadingError = useAppSelector((state) => state.offerLoadingError);
 
   useEffect(() => {
-    if (roomOffer) {
-      dispatch(setCity(roomOffer.city.name));
-    }
-  }, [dispatch, roomOffer]);
+    dispatch(fetchOfferAction(id));
+    dispatch(fetchNearbyOffersAction(id));
+    dispatch(fetchReviewsAction(id));
+    return () => {
+      dispatch(setActiveOffer(null));
+    };
+  }, [dispatch, id]);
 
-  if (!roomOffer) {
-    return <NotFoundScreen />;
+  useEffect(() => {
+    if (currentOffer) {
+      dispatch(setActiveOffer(currentOffer));
+      dispatch(setCity(currentOffer.city.name));
+    }
+  }, [dispatch, currentOffer]);
+
+  if (isOfferLoadingStatus) {
+    return (
+      <div className="page">
+        <Header />
+        <Loader />
+      </div>
+    );
   }
 
-
-  const temporaryNearByOffers = offers.filter((offer) => offer.id !== id).slice(0, 3);
+  if (offerLoadingError) {
+    navigate(AppRoute.NotFound);
+  }
 
   return (
     <div className="page">
       <Header />
 
       <main className="page__main page__main--property">
+        {currentOffer &&
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {shuffleArray(roomOffer.images).slice(0, 6).map((image) => (
+              {shuffleArray(currentOffer.images).slice(0, 6).map((image) => (
                 <div className="property__image-wrapper" key={image}>
                   <img className="property__image" src={image} alt="offer view"/>
                 </div>
@@ -56,12 +77,12 @@ function Room(): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {roomOffer.isPremium && <div className="property__mark"><span>Premium</span></div>}
+              {currentOffer.isPremium && <div className="property__mark"><span>Premium</span></div>}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {roomOffer.title}
+                  {currentOffer.title}
                 </h1>
-                <button className={`property__bookmark-button button ${roomOffer.isFavorite ? 'property__bookmark-button--active' : ''}`} type="button">
+                <button className={`property__bookmark-button button ${currentOffer.isFavorite ? 'property__bookmark-button--active' : ''}`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -70,30 +91,30 @@ function Room(): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${roomOffer.rating * 20}%`}}></span>
+                  <span style={{width: `${currentOffer.rating * 20}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{roomOffer.rating}</span>
+                <span className="property__rating-value rating__value">{currentOffer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {roomOffer.type}
+                  {currentOffer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {roomOffer.bedrooms} Bedrooms
+                  {currentOffer.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {roomOffer.maxAdults} adults
+                  Max {currentOffer.maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{roomOffer.price}</b>
+                <b className="property__price-value">&euro;{currentOffer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {roomOffer.goods.map((good) => (
+                  {currentOffer.goods.map((good) => (
                     <li className="property__inside-item" key={good}>
                       {good}
                     </li>
@@ -103,40 +124,35 @@ function Room(): JSX.Element {
 
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
-                <HostUser {...roomOffer.host} />
+                <HostUser {...currentOffer.host} />
                 <div className="property__description">
-                  {splitDescription(roomOffer.description).map((paragraph) => (
+                  {splitDescription(currentOffer.description).map((paragraph) => (
                     <p className="property__text" key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
               </div>
-              <Reviews reviews={REVIEWS} />
+              {isCommentsLoadingStatus ? <Loader /> : <Reviews />}
             </div>
           </div>
-          <Map city={roomOffer.city} offers={temporaryNearByOffers} blockClass="property__map" />
-        </section>
+          {isNearByOffersLoadingStatus ? <Loader /> : <Map city={currentOffer.city} offers={[...nearbyOffers, currentOffer]} blockClass="property__map" />}
+        </section>}
         <div className="container">
+          {isNearByOffersLoadingStatus && <Loader />}
+          {!isNearByOffersLoadingStatus &&
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {temporaryNearByOffers.map((offer) => (
+              {nearbyOffers.map((offer) => (
                 <PlaceCard
                   key={offer.id}
-                  isPremium={offer.isPremium}
-                  previewImage={offer.previewImage}
-                  price={offer.price}
-                  isFavorite={offer.isFavorite}
-                  rating={offer.rating}
-                  id={offer.id}
-                  title={offer.title}
-                  type={offer.type}
+                  offer={offer}
                   blockClass={'near-places'}
                   dimensions={{
                     width: 260,
                     height: 200,}}
                 />))}
             </div>
-          </section>
+          </section>}
         </div>
       </main>
     </div>

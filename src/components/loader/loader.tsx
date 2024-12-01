@@ -1,4 +1,4 @@
-function LoadingScreen(): JSX.Element {
+function Loader(): JSX.Element {
   const styles = {
     container: {
       display: 'flex',
@@ -43,4 +43,4 @@ function LoadingScreen(): JSX.Element {
   );
 }
 
-export default LoadingScreen;
+export default Loader;

@@ -40,9 +40,9 @@ type Offer = {
   maxAdults: number;
 }
 
-type OfferBasic = Pick<Offer, 'id' | 'price' | 'rating' | 'title' | 'isPremium' | 'isFavorite' | 'previewImage' | 'type'> & {
-  city: Pick<City, 'name'>;
-};
+// type OfferBasic = Pick<Offer, 'id' | 'price' | 'rating' | 'title' | 'isPremium' | 'isFavorite' | 'previewImage' | 'type'> & {
+//   city: Pick<City, 'name'>;
+// };
 
 
 type User = {
@@ -62,4 +62,4 @@ type Review = {
 
 type SortType = typeof SortTypes[number];
 
-export type { Offer, Review, OfferBasic, GeoLocation, CityName, City, Cities, SortType };
+export type { Offer, Review, GeoLocation, CityName, City, Cities, SortType };

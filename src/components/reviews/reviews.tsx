@@ -1,20 +1,23 @@
-import type {Review} from '../../types/types';
+
 
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
+import { useAppSelector } from '../../hooks';
 
-function Reviews({reviews}: {reviews: Review[]}): JSX.Element {
+function Reviews(): JSX.Element {
+
+  const {authorizationStatus, comments } = useAppSelector((state) => state);
   return (
     <section className="property__reviews reviews">
       {
-        reviews.length > 0 &&
+        comments.length > 0 &&
         <>
-          <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-          <ReviewsList reviews={reviews} />
+          <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+          <ReviewsList reviews={comments} />
         </>
       }
 
-      <CommentForm />
+      {authorizationStatus === 'AUTH' && <CommentForm />}
     </section>
   );
 }

@@ -8,3 +8,9 @@ export type UserData = {
 };
 
 export type UserInfo = Omit<UserData, 'token'>;
+
+export type UserComment = {
+  comment: string;
+  rating: number;
+  hotelId: number;
+};
