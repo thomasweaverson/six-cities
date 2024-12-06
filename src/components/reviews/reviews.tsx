@@ -3,10 +3,15 @@
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
 import { useAppSelector } from '../../hooks';
+import { Review } from '../../types/types';
 
-function Reviews(): JSX.Element {
+type ReviewsProps = {
+  comments: Review[];
+};
 
-  const {authorizationStatus, comments } = useAppSelector((state) => state);
+function Reviews( {comments}: ReviewsProps): JSX.Element {
+
+  const {authorizationStatus} = useAppSelector((state) => state);
   return (
     <section className="property__reviews reviews">
       {

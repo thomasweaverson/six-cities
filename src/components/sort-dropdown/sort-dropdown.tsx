@@ -35,8 +35,3 @@ function SortDropdown(): JSX.Element {
 }
 
 export default SortDropdown;
-
-{/* <li className={`places__option ${activeSortType === 'Popular' ? 'places__option--active' : ''}`} tabIndex={0}>Popular</li>
-<li className={`places__option ${activeSortType === 'Price: low to high' ? 'places__option--active' : ''}`} tabIndex={0}>Price: low to high</li>
-<li className={`places__option ${activeSortType === 'Price: high to low' ? 'places__option--active' : ''}`} tabIndex={0}>Price: high to low</li>
-<li className={`places__option ${activeSortType === 'Top rated first' ? 'places__option--active' : ''}`} tabIndex={0}>Top rated first</li> */}

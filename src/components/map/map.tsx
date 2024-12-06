@@ -3,7 +3,7 @@ import { Icon, Marker, LayerGroup } from 'leaflet';
 
 import type { City, Offer } from '../../types/types';
 
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks';

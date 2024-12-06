@@ -40,11 +40,6 @@ type Offer = {
   maxAdults: number;
 }
 
-// type OfferBasic = Pick<Offer, 'id' | 'price' | 'rating' | 'title' | 'isPremium' | 'isFavorite' | 'previewImage' | 'type'> & {
-//   city: Pick<City, 'name'>;
-// };
-
-
 type User = {
   id: number;
   isPro: boolean;
