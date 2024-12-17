@@ -1,12 +1,14 @@
 import {Link, useNavigate} from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logoutAction } from '../../store/api-actions';
 import defaultAvatar from '../../images/avatar.svg';
 import { useMemo } from 'react';
+import { getAuthorizationStatus, getUserInfo } from '../../store/user-process/selectors';
+import { logout } from '../../store/action';
 
 function UserPanel(): JSX.Element {
-  const {authorizationStatus, userInfo} = useAppSelector((state) => state);
+  const userInfo = useAppSelector(getUserInfo);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
@@ -18,7 +20,7 @@ function UserPanel(): JSX.Element {
   const handleSignInOutClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     if (isUserAuthorized) {
-      dispatch(logoutAction());
+      dispatch(logout());
       setTimeout(() => navigate(AppRoute.Root), 50);
     } else {
       navigate(AppRoute.Login);

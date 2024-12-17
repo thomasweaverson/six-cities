@@ -1,20 +1,19 @@
-import { useState } from 'react';
 import PlaceCard from '../place-card/place-card';
 import type {Offer, CityName} from '../../types/types';
 
 function FavoritesItem({city, offers}: {city: CityName; offers: Offer[]}): JSX.Element {
-  const [activePlace, setActivePlace] = useState<Offer | null>(null);
-  // eslint-disable-next-line no-console
-  console.log(activePlace);
-  //@thws тут чёт много лишнего, стейт например
+  // const [activePlace, setActivePlace] = useState<Offer | null>(null);
+  // // eslint-disable-next-line no-console
+  // console.log(activePlace);
 
-  const handleMouseEnter = (offer: Offer) => {
-    setActivePlace(offer);
-  };
 
-  const handleMouseLeave = () => {
-    setActivePlace(null);
-  };
+  // const handleMouseEnter = (offer: Offer) => {
+  //   setActivePlace(offer);
+  // };
+
+  // const handleMouseLeave = () => {
+  //   setActivePlace(null);
+  // };
 
 
   return (
@@ -31,8 +30,8 @@ function FavoritesItem({city, offers}: {city: CityName; offers: Offer[]}): JSX.E
           <PlaceCard
             key={offer.id}
             offer={offer}
-            onMouseEnter={() => handleMouseEnter(offer)}
-            onMouseLeave={handleMouseLeave}
+            // onMouseEnter={() => handleMouseEnter(offer)}
+            // onMouseLeave={handleMouseLeave}
             blockClass={'favorites'}
             dimensions={{
               width: 150,

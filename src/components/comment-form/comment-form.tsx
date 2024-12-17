@@ -3,7 +3,7 @@ import type { ChangeEvent } from 'react';
 import { Fragment, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
-import { sendNewCommentAction } from '../../store/api-actions';
+import { postReview } from '../../store/action';
 
 function CommentForm() {
   const [rating, setRating] = useState<number | null>(null);
@@ -34,7 +34,7 @@ function CommentForm() {
     event.preventDefault();
     if (!isSubmitDisabled && !isSubmitting) {
       setIsSubmitting(true);
-      const isSentSuccessfully = await dispatch(sendNewCommentAction({comment: reviewText, rating, hotelId})).unwrap();
+      const isSentSuccessfully = await dispatch(postReview({comment: reviewText, rating, hotelId})).unwrap();
 
       if (isSentSuccessfully) {
         setReviewText('');

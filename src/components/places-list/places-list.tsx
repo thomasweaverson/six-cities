@@ -5,7 +5,9 @@ import type {Offer} from '../../types/types';
 import PlaceCard from '../place-card/place-card';
 import { useAppSelector } from '../../hooks';
 import { sortOffers } from '../../utils/cities-utils';
-import { setActiveOffer } from '../../store/action';
+
+import { getActiveSortType } from '../../store/app-process/selectors';
+import { setActiveOffer } from '../../store/app-process/app-process';
 
 type PlacesListProps = {
   offers: Offer[];
@@ -14,7 +16,7 @@ type PlacesListProps = {
 function PlacesList({offers}: PlacesListProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const activeSortType = useAppSelector((state) => state.activeSortType);
+  const activeSortType = useAppSelector(getActiveSortType);
   const sortedOffers = sortOffers(offers, activeSortType);
 
   const handleMouseEnter = (offer: Offer) => {

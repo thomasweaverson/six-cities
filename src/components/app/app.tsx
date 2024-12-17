@@ -9,8 +9,6 @@ import PrivateRoute from '../private-route/private-route';
 import { AppRoute } from '../../const';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-// const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
-//   authorizationStatus === AuthorizationStatus.Unknown;
 
 function App(): JSX.Element {
 

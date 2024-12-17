@@ -1,60 +1,135 @@
-import { createAction, PayloadAction } from '@reduxjs/toolkit';
-import type { Offer, CityName, SortType, Review } from '../types/types';
-import { AuthorizationStatus, AppRoute } from '../const';
-import { UserInfo } from '../types/user-data';
+import type { History } from 'history';
+import type { AxiosInstance, AxiosError } from 'axios';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+
+import { Offer, Review } from '../types/types';
+import { AuthData } from '../types/auth-data';
+import { UserComment, UserData, UserInfo } from '../types/user-data';
+
+import { APIRoute, AppRoute, HttpCode } from '../const';
+import { dropToken, saveToken } from '../services/token';
+
+
+type Extra = {
+  api: AxiosInstance;
+  history: History;
+}
 
 export const Action = {
-  SET_CITY: 'city/set',
-  SET_ACTIVE_SORT_TYPE: 'sorting/set-active-sort-type',
-  SET_ACTIVE_OFFER: 'offers/set-active',
-  SET_OFFERS: 'data/setOffers',
-  SET_CURRENT_OFFER: 'data/setCurrentOffer',
-  SET_NEARBY_OFFERS: 'data/setNearbyOffers',
-  SET_COMMENTS: 'data/setComments',
-  SET_OFFERS_LOADING_STATUS: 'data/setOffersLoadingStatus',
-  SET_OFFER_LOADING_STATUS: 'data/setOfferLoadingStatus',
-  SET_NEARBY_OFFERS_LOADING_STATUS: 'data/setNearbyOffersLoadedStatus',
-  SET_COMMENTS_LOADING_STATUS: 'data/setCommentsLoadingStatus',
-  REQUIRE_AUTHORIZATION: 'user/requireAuthorization',
-  SET_ERROR: 'user/setError',
-  SET_OFFER_LOADING_ERROR: 'data/setOfferLoadingError',
-  SET_CURRENT_USER: 'user/setCurrentUser',
-  REDIRECT_TO_ROUTE: 'redirect/redirectToRoute',
-} as const;
+  FETCH_OFFERS: 'offers/fetch',
+  FETCH_OFFER: 'offer/fetch',
+  FETCH_NEARBY_OFFERS: 'offers/fetch-nearby',
+  FETCH_REVIEWS: 'offer/fetch-reviews',
+  POST_REVIEW: 'offer/post-review',
+  CHECK_AUTH: 'user/check-auth',
+  LOGIN: 'user/login',
+  LOGOUT: 'user/logout',
+  REDIRECT_TO_ROUTE: 'redirect-to-route',
+};
 
+export const fetchOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }>(
+  Action.FETCH_OFFERS,
+  async (_arg, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.get<Offer[]>(APIRoute.Offers);
+    return data;
+  }
+);
 
-export const setCity = createAction<CityName>(Action.SET_CITY);
+export const fetchOffer = createAsyncThunk<Offer, Offer['id'], {extra: Extra}>(
+  Action.FETCH_OFFER,
+  async (id, { extra }) => {
+    const { api, history } = extra;
 
-export const setActiveSortType = createAction<SortType>(Action.SET_ACTIVE_SORT_TYPE);
+    try {
+      const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+      return data;
+    } catch (error) {
+      const AxiosError = error as AxiosError;
 
-export const setActiveOffer = createAction<Offer | null>(Action.SET_ACTIVE_OFFER);
+      if (AxiosError.response?.status === HttpCode.NotFound) {
+        history.push(AppRoute.NotFound);
+      }
 
-export const setOffers = createAction<Offer[]>(Action.SET_OFFERS);
+      return Promise.reject(error);
+    }
+  }
+);
 
-export const setCurrentOffer = createAction<Offer | null>(Action.SET_CURRENT_OFFER);
+export const fetchNearbyOffers = createAsyncThunk<Offer[], Offer['id'], { extra: Extra }>(
+  Action.FETCH_NEARBY_OFFERS,
+  async (id, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+    return data;
+  }
+);
 
-export const setNearByOffers = createAction<Offer[]>(Action.SET_NEARBY_OFFERS);
+export const fetchReviews = createAsyncThunk<Review[], Offer['id'], { extra: Extra }>(
+  Action.FETCH_REVIEWS,
+  async (id, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
+    return data;
+  }
+);
 
-export const setComments = createAction<Review[]>(Action.SET_COMMENTS);
+export const postReview = createAsyncThunk<Review[], UserComment, { extra: Extra }>(
+  Action.POST_REVIEW,
+  async ({comment, rating, hotelId}, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.post<Review[]>(`${APIRoute.Comments}/${hotelId}`, {comment, rating});
 
-export const setCurrentUser = createAction<UserInfo>(Action.SET_CURRENT_USER);
+    return data;
+  }
+);
 
-export const setOffersLoadingStatus = createAction<boolean>(Action.SET_OFFERS_LOADING_STATUS);
+export const checkAuth = createAsyncThunk<UserInfo, undefined,{ extra: Extra }>(
+  Action.CHECK_AUTH,
+  async (_arg, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.get<UserInfo>(APIRoute.Login);
 
-export const setOfferLoadingStatus = createAction<boolean>(Action.SET_OFFER_LOADING_STATUS);
+    return data;
+  }
+);
 
-export const setNearByOffersLoadingStatus = createAction<boolean>(Action.SET_NEARBY_OFFERS_LOADING_STATUS);
+export const login = createAsyncThunk<UserInfo, AuthData, { extra: Extra}>(
+  Action.LOGIN,
+  async ({email, password}, { extra }) => {
+    const { api, history } = extra;
+    const { data } = await api.post<UserData>(APIRoute.Login, {email, password});
+    const { token } = data;
 
-export const setCommentsLoadingStatus = createAction<boolean>(Action.SET_COMMENTS_LOADING_STATUS);
+    saveToken(token);
+    history.push(AppRoute.Root);
 
-export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTHORIZATION);
+    return data;
+  }
+);
+//@thws реализовать переход не в root, а на ту страницу, на которой пользователь был перед логином
 
-export const setError = createAction<string | null>(Action.SET_ERROR);
-
-export const setOfferLoadingError = createAction<string | null>(Action.SET_OFFER_LOADING_ERROR);
+export const logout = createAsyncThunk<void, undefined, { extra: Extra }>(
+  Action.LOGOUT,
+  async (_arg, { extra }) => {
+    const { api } = extra;
+    await api.delete(APIRoute.Logout);
+    dropToken();
+  }
+);
 
 export const redirectToRoute = createAction<AppRoute>(Action.REDIRECT_TO_ROUTE);
 
+export type RedirectToRouteAction = ReturnType<typeof redirectToRoute>;
 
-export type RedirectToRouteAction = PayloadAction<string, typeof Action.REDIRECT_TO_ROUTE>;
-
+// export const clearErrorAction = createAsyncThunk(
+//   'user/clearError',
+//   () => {
+//     setTimeout(
+//       () => {
+//         store.dispatch(setError(null));
+//         store.dispatch(setOfferLoadingError(null));
+//       },
+//       TIMEOUT_SHOW_ERROR);
+//   }
+// );

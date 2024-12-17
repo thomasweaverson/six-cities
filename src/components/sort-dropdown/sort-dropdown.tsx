@@ -1,11 +1,13 @@
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useState } from 'react';
-import { setActiveSortType } from '../../store/action';
+
 import { SortTypes } from '../../const';
 import type { SortType } from '../../types/types';
+import { getActiveSortType } from '../../store/app-process/selectors';
+import { setActiveSortType } from '../../store/app-process/app-process';
 function SortDropdown(): JSX.Element {
   const dispatch = useAppDispatch();
-  const activeSortType = useAppSelector((state) => state.activeSortType);
+  const activeSortType = useAppSelector(getActiveSortType);
   const [isOpen, setIsOpen] = useState(false);
 
   const sortItemHandleClick = (sortType: SortType) => {

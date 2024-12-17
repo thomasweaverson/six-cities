@@ -1,26 +1,22 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '.';
-import { fetchNearbyOffersAction, fetchOfferAction, fetchReviewsAction } from '../store/api-actions';
-import { setActiveOffer, setCity } from '../store/action';
+import { fetchNearbyOffers, fetchOffer, fetchReviews } from '../store/action';
+import { setActiveOffer, setCity } from '../store/app-process/app-process';
+import { getComments, getCurrentOffer, getIsCommentsLoadingStatus, getIsNearByOffersLoadingStatus, getIsOfferLoadingStatus, getNearbyOffers } from '../store/app-data/selectors';
 
 export function useRoomData(id: number) {
   const dispatch = useAppDispatch();
-  const {
-    currentOffer,
-    comments,
-    nearbyOffers,
-
-    offerLoadingError,
-
-    isOfferLoadingStatus,
-    isCommentsLoadingStatus,
-    isNearByOffersLoadingStatus
-  } = useAppSelector((state) => state);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const isOfferLoadingStatus = useAppSelector(getIsOfferLoadingStatus);
+  const isCommentsLoadingStatus = useAppSelector(getIsCommentsLoadingStatus);
+  const isNearByOffersLoadingStatus = useAppSelector(getIsNearByOffersLoadingStatus);
 
   useEffect(() => {
-    dispatch(fetchOfferAction(id));
-    dispatch(fetchNearbyOffersAction(id));
-    dispatch(fetchReviewsAction(id));
+    dispatch(fetchOffer(id));
+    dispatch(fetchNearbyOffers(id));
+    dispatch(fetchReviews(id));
     return () => {
       dispatch(setActiveOffer(null));
     };
@@ -33,5 +29,5 @@ export function useRoomData(id: number) {
     }
   }, [dispatch, currentOffer]);
 
-  return { currentOffer, comments, offerLoadingError, isOfferLoadingStatus, nearbyOffers, isCommentsLoadingStatus, isNearByOffersLoadingStatus };
+  return { currentOffer, comments, isOfferLoadingStatus, nearbyOffers, isCommentsLoadingStatus, isNearByOffersLoadingStatus };
 }

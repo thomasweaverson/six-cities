@@ -3,7 +3,7 @@ import Logo from '../../components/logo/logo';
 import {useRef, FormEvent} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
+import { login } from '../../store/action';
 import type { AuthData } from '../../types/auth-data';
 // import { AppRoute } from '../../const';
 
@@ -13,9 +13,10 @@ function LoginScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  //@thws нужен ли навигейт, если в экшене делаем хистори пуш?
 
   const onSubmit = (authData: AuthData) => {
-    dispatch(loginAction(authData));
+    dispatch(login(authData));
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {

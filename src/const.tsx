@@ -59,7 +59,7 @@ enum SortTypeEnum {
 }
 
 enum APIRoute {
-  Hotels = '/hotels',
+  Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
@@ -68,4 +68,14 @@ enum APIRoute {
 
 const TIMEOUT_SHOW_ERROR = 3000;
 
-export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum, APIRoute, TIMEOUT_SHOW_ERROR};
+enum NameSpace {
+  AppData = 'APP_DATA',
+  AppProcess = 'APP_PROCESS',
+  UserProcess = 'USER_PROCESS',
+}
+
+enum HttpCode {
+  NotFound = 404
+}
+
+export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum, APIRoute, TIMEOUT_SHOW_ERROR, NameSpace, HttpCode};

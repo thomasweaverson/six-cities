@@ -4,6 +4,7 @@ import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
 import { useAppSelector } from '../../hooks';
 import { Review } from '../../types/types';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type ReviewsProps = {
   comments: Review[];
@@ -11,7 +12,7 @@ type ReviewsProps = {
 
 function Reviews( {comments}: ReviewsProps): JSX.Element {
 
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   return (
     <section className="property__reviews reviews">
       {

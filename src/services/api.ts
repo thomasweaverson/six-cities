@@ -1,10 +1,10 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError, AxiosHeaders, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosHeaders, InternalAxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'; // AxiosResponse
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
 import { processErrorHandle } from './process-error-handle';
 import { AppRoute } from '../const';
 import { redirectToRoute } from '../store/action';
-import { store } from '../store';
+import store from '../store';
 
 
 const StatusCodeMapping: Record<number, boolean> = {

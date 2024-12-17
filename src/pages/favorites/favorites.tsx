@@ -4,6 +4,7 @@ import { cities } from '../../const';
 import FavoritesItem from '../../components/favorites-item/favorites-item';
 import { useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
+import { getOffers } from '../../store/app-data/selectors';
 
 type GroupedOffers = {
   city: CityName;
@@ -22,7 +23,7 @@ function filterFavoritesAndGroupByCity(offers: Offer[]): GroupedOffers[] | null 
 }
 
 function Favorites(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
   const groupedOffers = filterFavoritesAndGroupByCity(offers);
   const isOffersEmpty = (!groupedOffers || groupedOffers.length === 0);
 

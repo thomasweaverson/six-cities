@@ -7,6 +7,7 @@ import useMap from '../../hooks/use-map';
 
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks';
+import { getActiveOffer } from '../../store/app-process/selectors';
 
 type MapProps = {
   city: City;
@@ -30,7 +31,7 @@ function Map({city, offers, blockClass = 'cities__map'}: MapProps): JSX.Element 
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
 
-  const activeOffer = useAppSelector((state) => state.activeOffer);
+  const activeOffer = useAppSelector(getActiveOffer);
 
   useEffect(() => {
     if (map) {

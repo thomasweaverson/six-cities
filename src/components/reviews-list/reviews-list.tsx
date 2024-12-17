@@ -8,8 +8,6 @@ const sortByDateDescending = (comments: Review[]): Review[] => comments.sort((a,
 });
 
 function ReviewsList({reviews}: {reviews: Review[]}): JSX.Element {
-  // eslint-disable-next-line
-  console.log(reviews);
   const sortedReviews = sortByDateDescending([...reviews]);
   const trimmedReviews = sortedReviews.slice(0, 10);
   return (

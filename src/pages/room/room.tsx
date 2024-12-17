@@ -16,6 +16,7 @@ import PropertyDetails from '../../components/property-details/property-details'
 
 function Room(): JSX.Element {
   const id = Number(useParams().id);
+
   const {
     currentOffer,
     comments,
