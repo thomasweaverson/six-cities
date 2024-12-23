@@ -18,6 +18,9 @@ export const getIsNearByOffersLoadingStatus = ({[NameSpace.AppData]: APP_DATA}: 
 export const getComments = ({[NameSpace.AppData]: APP_DATA}: State): Review[] => APP_DATA.comments;
 export const getIsCommentsLoadingStatus = ({[NameSpace.AppData]: APP_DATA}: State): boolean => APP_DATA.isCommentsLoadingStatus;
 
+export const getFavoriteOffers = ({[NameSpace.AppData]: APP_DATA}: State): Offer[] => APP_DATA.favoriteOffers;
+export const getIsFavoriteOffersLoadingStatus = ({[NameSpace.AppData]: APP_DATA}: State): boolean => APP_DATA.isFavoriteOffersLoadingStatus;
+
 export const selectOffers = createSelector(
   [getOffers, getCity, getActiveSortType],
   (offers, city, activeSortType) => sortOffers(getOffersByCity(city.name, offers), activeSortType)

@@ -19,9 +19,23 @@ function Places(): JSX.Element {
     );
   }
 
+  if (offers.length === 0) {
+    return (
+      <>
+        <section className='cities__no-places'>
+          <div className="cities__status-wrapper tabs__content">
+            <b className="cities__status">No places to stay available</b>
+            <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
+          </div>
+        </section>
+        <div className="cities__right-section"></div>
+      </>
+    );
+  }
+
   return (
     <>
-      <section className="cities__places places">
+      <section className='cities__places places'>
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{offers.length} places to stay in {currentCity.name}</b>
         <SortDropdown />

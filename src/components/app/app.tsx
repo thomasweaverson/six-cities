@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Main from '../../pages/main/main';
 import Login from '../../pages/login-screen/login-screen';
-import Favorites from '../../pages/favorites/favorites';
+import Favorites from '../../pages/favorite/favorite';
 import Room from '../../pages/room/room';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
@@ -31,7 +31,7 @@ function App(): JSX.Element {
         />
 
         <Route
-          path={AppRoute.Favorites}
+          path={AppRoute.Favorite}
           element={
             <PrivateRoute>
               <Favorites />

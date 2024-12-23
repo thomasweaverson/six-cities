@@ -4,7 +4,11 @@ import { cities } from '../../const';
 import FavoritesItem from '../../components/favorites-item/favorites-item';
 import { useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
-import { getOffers } from '../../store/app-data/selectors';
+import { getFavoriteOffers, getIsFavoriteOffersLoadingStatus } from '../../store/app-data/selectors';
+import Loader from '../../components/loader/loader';
+import { useEffect } from 'react';
+import store from '../../store';
+import { fetchFavoriteOffers } from '../../store/action';
 
 type GroupedOffers = {
   city: CityName;
@@ -23,7 +27,12 @@ function filterFavoritesAndGroupByCity(offers: Offer[]): GroupedOffers[] | null 
 }
 
 function Favorites(): JSX.Element {
-  const offers = useAppSelector(getOffers);
+  useEffect(() => {
+    store.dispatch(fetchFavoriteOffers());
+  }, []);
+  const offers = useAppSelector(getFavoriteOffers);
+  const isFavoriteLoadingStatus = useAppSelector(getIsFavoriteOffersLoadingStatus);
+
   const groupedOffers = filterFavoritesAndGroupByCity(offers);
   const isOffersEmpty = (!groupedOffers || groupedOffers.length === 0);
 
@@ -37,9 +46,10 @@ function Favorites(): JSX.Element {
 
       <main className={mainElementClass}>
         <div className="page__favorites-container container">
-          <section className={sectionFavoritesElementClass}>
-            {
-              isOffersEmpty &&
+          {isFavoriteLoadingStatus ? <Loader /> :
+            <section className={sectionFavoritesElementClass}>
+              {
+                isOffersEmpty &&
                 <>
                   <h1 className="visually-hidden">Favorites (empty)</h1>
                   <div className="favorites__status-wrapper">
@@ -47,10 +57,10 @@ function Favorites(): JSX.Element {
                     <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
                   </div>
                 </>
-            }
+              }
 
-            {
-              !isOffersEmpty &&
+              {
+                !isOffersEmpty &&
                 <>
                   <h1 className="favorites__title">Saved listing</h1>
                   <ul className="favorites__list">
@@ -63,8 +73,8 @@ function Favorites(): JSX.Element {
                     ))}
                   </ul>
                 </>
-            }
-          </section>
+              }
+            </section>}
         </div>
       </main>
       <footer className="footer container">

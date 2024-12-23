@@ -5,7 +5,7 @@ import { checkAuth, login, logout } from '../action';
 import { NameSpace, AuthorizationStatus } from '../../const';
 
 const initialState: UserProcess = {
-  authorizationStatus: AuthorizationStatus.NoAuth,
+  authorizationStatus: AuthorizationStatus.Unknown,
   userInfo: null
 };
 

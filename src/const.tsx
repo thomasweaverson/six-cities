@@ -2,7 +2,7 @@ import type {GeoLocation, CityName} from './types/types';
 
 enum AppRoute {
   Root = '/',
-  Favorites = '/favorites',
+  Favorite = '/favorite',
   Offer = '/offer',
   Login = '/login',
   NotFound = '*',
@@ -63,7 +63,7 @@ enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
-  // Favorites = '/favorites',
+  Favorite = '/favorite',
 }
 
 const TIMEOUT_SHOW_ERROR = 3000;
@@ -75,7 +75,8 @@ enum NameSpace {
 }
 
 enum HttpCode {
-  NotFound = 404
+  NotFound = 404,
+  NoAuth = 401
 }
 
 export {AppRoute, AuthorizationStatus, cities, CityLocation, SortTypes, SortTypeEnum, APIRoute, TIMEOUT_SHOW_ERROR, NameSpace, HttpCode};

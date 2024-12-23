@@ -27,7 +27,6 @@ function Room(): JSX.Element {
     isNearByOffersLoadingStatus
   } = useRoomData(id);
 
-
   if (isOfferLoadingStatus) {
     return (
       <div className="page">

@@ -12,6 +12,8 @@ export type AppData = {
   isNearByOffersLoadingStatus: boolean;
   comments: Review[];
   isCommentsLoadingStatus: boolean;
+  favoriteOffers: Offer[];
+  isFavoriteOffersLoadingStatus: boolean;
 }
 
 export type AppProcess = {

@@ -31,7 +31,7 @@ function UserPanel(): JSX.Element {
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">
-        <Link className="header__nav-link header__nav-link--profile" to={isUserAuthorized ? AppRoute.Favorites : AppRoute.Login}>
+        <Link className="header__nav-link header__nav-link--profile" to={isUserAuthorized ? AppRoute.Favorite : AppRoute.Login}>
           <div
             style={avatarStyle}
             className="header__avatar-wrapper user__avatar-wrapper"

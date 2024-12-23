@@ -2,7 +2,7 @@ import type { History } from 'history';
 import type { AxiosInstance, AxiosError } from 'axios';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { Offer, Review } from '../types/types';
+import { Offer, PostFavorite, Review } from '../types/types';
 import { AuthData } from '../types/auth-data';
 import { UserComment, UserData, UserInfo } from '../types/user-data';
 
@@ -21,6 +21,8 @@ export const Action = {
   FETCH_NEARBY_OFFERS: 'offers/fetch-nearby',
   FETCH_REVIEWS: 'offer/fetch-reviews',
   POST_REVIEW: 'offer/post-review',
+  FETCH_FAVORITE_OFFERS: 'offers/fetch-favorite',
+  POST_FAVORITE: 'offer/post-favorite',
   CHECK_AUTH: 'user/check-auth',
   LOGIN: 'user/login',
   LOGOUT: 'user/logout',
@@ -45,9 +47,9 @@ export const fetchOffer = createAsyncThunk<Offer, Offer['id'], {extra: Extra}>(
       const { data } = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
       return data;
     } catch (error) {
-      const AxiosError = error as AxiosError;
+      const axiosError = error as AxiosError;
 
-      if (AxiosError.response?.status === HttpCode.NotFound) {
+      if (axiosError.response?.status === HttpCode.NotFound) {
         history.push(AppRoute.NotFound);
       }
 
@@ -84,6 +86,35 @@ export const postReview = createAsyncThunk<Review[], UserComment, { extra: Extra
   }
 );
 
+export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }>(
+  Action.FETCH_FAVORITE_OFFERS,
+  async (_arg, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.get<Offer[]>(APIRoute.Favorite);
+    return data;
+  }
+);
+
+export const postFavorite = createAsyncThunk<Offer, PostFavorite, { extra: Extra }>(
+  Action.POST_FAVORITE,
+  async ({id, status}, { extra }) => {
+    const { api, history } = extra;
+
+    try {
+      const { data } = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${status}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response?.status === HttpCode.NoAuth) {
+        history.push(AppRoute.Login);
+      }
+
+      return Promise.reject(error);
+    }
+  }
+);
+
 export const checkAuth = createAsyncThunk<UserInfo, undefined,{ extra: Extra }>(
   Action.CHECK_AUTH,
   async (_arg, { extra }) => {
@@ -96,14 +127,13 @@ export const checkAuth = createAsyncThunk<UserInfo, undefined,{ extra: Extra }>(
 
 export const login = createAsyncThunk<UserInfo, AuthData, { extra: Extra}>(
   Action.LOGIN,
-  async ({email, password}, { extra }) => {
+  async ({email, password}, { dispatch, extra }) => {
     const { api, history } = extra;
     const { data } = await api.post<UserData>(APIRoute.Login, {email, password});
     const { token } = data;
-
     saveToken(token);
     history.push(AppRoute.Root);
-
+    dispatch(fetchOffers());
     return data;
   }
 );

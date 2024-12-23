@@ -57,4 +57,9 @@ type Review = {
 
 type SortType = typeof SortTypes[number];
 
-export type { Offer, Review, GeoLocation, CityName, City, Cities, SortType };
+type PostFavorite = {
+  id: number;
+  status: 1 | 0;
+}
+
+export type { Offer, Review, GeoLocation, CityName, City, Cities, SortType, PostFavorite };

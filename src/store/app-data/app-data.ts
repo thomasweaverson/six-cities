@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { AppData } from '../../types/state';
 import { NameSpace } from '../../const';
-import { fetchOffers, fetchOffer, fetchNearbyOffers, fetchReviews, postReview } from '../action';
+import { fetchOffers, fetchOffer, fetchNearbyOffers, fetchReviews, postReview, fetchFavoriteOffers, postFavorite, logout } from '../action';
 
 const initialState: AppData = {
   offers: [],
@@ -13,6 +13,8 @@ const initialState: AppData = {
   isNearByOffersLoadingStatus: false,
   comments: [],
   isCommentsLoadingStatus: false,
+  favoriteOffers: [],
+  isFavoriteOffersLoadingStatus: false,
 };
 
 export const appData = createSlice({
@@ -63,8 +65,34 @@ export const appData = createSlice({
       })
       .addCase(postReview.fulfilled, (state, action) => {
         state.comments = action.payload;
+      })
+      .addCase(fetchFavoriteOffers.pending, (state) => {
+        state.isCommentsLoadingStatus = true;
+      })
+      .addCase(fetchFavoriteOffers.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
+        state.isFavoriteOffersLoadingStatus = false;
+      })
+      .addCase(fetchFavoriteOffers.rejected, (state) => {
+        state.isFavoriteOffersLoadingStatus = false;
+      })
+      .addCase(postFavorite.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+        state.offers = state.offers.map((offer) => (offer.id === updatedOffer.id ? updatedOffer : offer));
+
+        if (state.currentOffer && state.currentOffer.id === updatedOffer.id) {
+          state.currentOffer = updatedOffer;
+        }
+
+        if (updatedOffer.isFavorite) {
+          state.favoriteOffers = [...state.favoriteOffers, updatedOffer];
+        } else {
+          state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== updatedOffer.id);
+        }
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.favoriteOffers = [];
+        state.offers = state.offers.map((offer) => ({...offer, isFavorite: false}));
       });
-  },
+  }
 });
-
-
