@@ -67,7 +67,7 @@ export const appData = createSlice({
         state.comments = action.payload;
       })
       .addCase(fetchFavoriteOffers.pending, (state) => {
-        state.isCommentsLoadingStatus = true;
+        state.isFavoriteOffersLoadingStatus = true;
       })
       .addCase(fetchFavoriteOffers.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
