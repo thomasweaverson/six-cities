@@ -10,10 +10,13 @@ import { AppRoute } from '../../const';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
+
+const basename = process.env.NODE_ENV === 'production' ? '/six-cities' : '/';
+
 function App(): JSX.Element {
 
   return (
-    <HistoryRouter history={browserHistory}>
+    <HistoryRouter basename={basename} history={browserHistory}>
       <Routes>
         <Route
           index

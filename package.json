@@ -2,6 +2,8 @@
   "name": "project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://thomasweaverson.github.io/six-cities",
+  "type": "module",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^1.7.7",

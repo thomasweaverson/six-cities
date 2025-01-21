@@ -35,7 +35,7 @@ const splitDescription = (description: string, maxLength = 100): string[] => {
     paragraphs.push(paragraph.trim());
   }
 
-  return paragraphs;
+  return paragraphs.filter((p) => p.length > 0);
 };
 
 

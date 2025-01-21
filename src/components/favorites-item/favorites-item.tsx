@@ -15,7 +15,6 @@ function FavoritesItem({city, offers}: {city: CityName; offers: Offer[]}): JSX.E
   //   setActivePlace(null);
   // };
 
-
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
