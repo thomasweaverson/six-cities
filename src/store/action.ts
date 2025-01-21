@@ -9,7 +9,6 @@ import { UserComment, UserData, UserInfo } from '../types/user-data';
 import { APIRoute, AppRoute, HttpCode } from '../const';
 import { dropToken, saveToken } from '../services/token';
 
-
 type Extra = {
   api: AxiosInstance;
   history: History;
@@ -132,7 +131,7 @@ export const login = createAsyncThunk<UserInfo, AuthData, { extra: Extra}>(
     const { data } = await api.post<UserData>(APIRoute.Login, {email, password});
     const { token } = data;
     saveToken(token);
-    history.push(AppRoute.Root);
+    history.push('/six-cities');
     dispatch(fetchOffers());
     return data;
   }

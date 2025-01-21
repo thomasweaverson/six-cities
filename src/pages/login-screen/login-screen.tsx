@@ -1,18 +1,18 @@
 import Logo from '../../components/logo/logo';
-
 import {useRef, FormEvent} from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { login } from '../../store/action';
 import type { AuthData } from '../../types/auth-data';
 // import { AppRoute } from '../../const';
+// import { basename } from '../../components/app/app';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   //@thws нужен ли навигейт, если в экшене делаем хистори пуш?
 
   const onSubmit = (authData: AuthData) => {
@@ -27,7 +27,7 @@ function LoginScreen(): JSX.Element {
         email: loginRef.current.value,
         password: passwordRef.current.value,
       });
-      navigate('/');
+      // navigate(AppRoute.Root);
     }
 
   };

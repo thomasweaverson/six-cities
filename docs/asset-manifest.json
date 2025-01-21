@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/six-cities/static/css/main.2e662a65.css",
-    "main.js": "/six-cities/static/js/main.cbbfe671.js",
+    "main.js": "/six-cities/static/js/main.7045ee78.js",
     "index.html": "/six-cities/index.html",
     "static/media/avatar.svg": "/six-cities/static/media/avatar.ab936ce8e958edf46e831f24248a75cc.svg",
     "static/media/pin-active.svg": "/six-cities/static/media/pin-active.6d8eeee8ce16154a24c9a0f9e49e40d0.svg",
     "static/media/pin.svg": "/six-cities/static/media/pin.e700a64af8af8f0d9422b64a361c1d35.svg",
     "main.2e662a65.css.map": "/six-cities/static/css/main.2e662a65.css.map",
-    "main.cbbfe671.js.map": "/six-cities/static/js/main.cbbfe671.js.map"
+    "main.7045ee78.js.map": "/six-cities/static/js/main.7045ee78.js.map"
   },
   "entrypoints": [
     "static/css/main.2e662a65.css",
-    "static/js/main.cbbfe671.js"
+    "static/js/main.7045ee78.js"
   ]
 }

@@ -5,6 +5,7 @@ import defaultAvatar from '../../images/avatar.svg';
 import { useMemo } from 'react';
 import { getAuthorizationStatus, getUserInfo } from '../../store/user-process/selectors';
 import { logout } from '../../store/action';
+// import { basename } from '../app/app';
 
 function UserPanel(): JSX.Element {
   const userInfo = useAppSelector(getUserInfo);
@@ -21,7 +22,7 @@ function UserPanel(): JSX.Element {
     event.preventDefault();
     if (isUserAuthorized) {
       dispatch(logout());
-      setTimeout(() => navigate(AppRoute.Root), 50);
+      setTimeout(() => navigate('/'), 50);
     } else {
       navigate(AppRoute.Login);
     }

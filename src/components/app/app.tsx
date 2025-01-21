@@ -11,7 +11,7 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 
-const basename = process.env.NODE_ENV === 'production' ? '/six-cities' : '/';
+export const basename = process.env.NODE_ENV === 'production' ? '/six-cities' : '/';
 
 function App(): JSX.Element {
 
