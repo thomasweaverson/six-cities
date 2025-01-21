@@ -1,6 +1,9 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker, LayerGroup } from 'leaflet';
 
+import pinIcon from './pin.svg';
+import pinActiveIcon from './pin-active.svg';
+
 import type { City, Offer } from '../../types/types';
 
 import useMap from '../../hooks/use-map';
@@ -16,13 +19,13 @@ type MapProps = {
 }
 
 const defaultCustomIcon = new Icon({
-  iconUrl: '/img/pin.svg',
+  iconUrl: pinIcon,
   iconSize: [27, 39],
   iconAnchor: [13.5, 39]
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: '/img/pin-active.svg',
+  iconUrl: pinActiveIcon,
   iconSize: [27, 39],
   iconAnchor: [13.5, 39]
 });
